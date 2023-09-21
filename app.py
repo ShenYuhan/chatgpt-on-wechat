@@ -8,6 +8,8 @@ from channel import channel_factory
 from common.log import logger
 from config import conf, load_config
 from plugins import *
+from plugins.pdf_eb.ernie_bot import ErnieBotPdfQA
+# from itchat.content import 
 
 
 def sigterm_handler_wrap(_signo):
@@ -31,6 +33,9 @@ def run():
         sigterm_handler_wrap(signal.SIGINT)
         # kill signal
         sigterm_handler_wrap(signal.SIGTERM)
+
+        # 服务启动时初始化一次ErnieBot
+        ErnieBotPdfQA()
 
         # create channel
         channel_name = conf().get("channel_type", "wx")

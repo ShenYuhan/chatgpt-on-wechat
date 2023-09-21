@@ -17,6 +17,10 @@ itchat.pkl
 user_datas.pkl
 chatgpt_tool_hub/
 plugins/**/
+!plugins/pdf_eb
+!plugins/pdf_eb/**/
+*.db
+config.yaml
 !plugins/bdunit
 !plugins/dungeon
 !plugins/finish

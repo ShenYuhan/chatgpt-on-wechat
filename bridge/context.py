@@ -14,6 +14,7 @@ class ContextType(Enum):
     JOIN_GROUP = 20  # 加入群聊
     PATPAT = 21  # 拍了拍
     FUNCTION = 22  # 函数调用
+    EMBEDDING_RETRIEVE = 23 # 用数据库中的数据解析问题
 
     def __str__(self):
         return self.name

@@ -1,0 +1,57 @@
+title: 🧐 Knowledge QA LLM
+version: 0.0.11
+
+LLM_API:
+  ERNIEBot: null
+#   Qwen7B_Chat: your_api
+#   ChatGLM2_6B: your_api
+#   BaiChuan7B: your_api
+
+# OnlineLLMAPI:
+#   ERNIEBotTurbo:
+#     api_url: https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/eb-instant?access_token=
+#     api_key: your_api_key
+#     secret_key: your_secret_key
+
+DEFAULT_PROMPT: 请根据以下内容，来回答该问题$query, 内容为：$context\n如果文中没有答案，请回答“没找到答案”。\n
+
+upload_dir: assets/raw_upload_files
+vector_db_path: assets/db/DefaultVector.db
+
+encoder_batch_size: 32
+max_content_len: 300
+Encoder:
+  erniebot_aistudio: null
+#   m3e-small: assets/models/m3e-small
+  # m3e-base: assets/models/m3e-base
+  # bge-small-zh: assets/models/bge-small-zh
+
+db_path: DefaultVector.db
+ernie_bot:
+  ak: 
+  sk: 
+
+# text splitter
+SENTENCE_SIZE: 200
+
+top_k: 5
+
+Parameter:
+  max_tokens:
+    min_value: 0
+    max_value: 4096
+    default: 1024
+    step: 1
+    tip: The longest length of input_ids
+  top_p:
+    min_value: 0.0
+    max_value: 1.0
+    default: 0.7
+    step: 0.01
+    tip: Limit the model to only consider the most likely first p markers.
+  temperature:
+    min_value: 0.01
+    max_value: 1.0
+    default: 0.01
+    step: 0.01
+    tip: Control the randomness of the model output. The smaller the value, the more standardized it is, and vice versa, the more creative it is.

@@ -7,3 +7,13 @@ chardet>=5.1.0
 Pillow
 pre-commit
 web.py
+
+numpy>=1.21.6
+transformers>=4.27.0.dev0
+faiss-cpu
+filetype
+extract-office-content>=0.0.6
+sentence_transformers
+rapidocr_onnxruntime
+rapidocr_pdf>=0.0.5
+loguru

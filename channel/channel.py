@@ -41,3 +41,5 @@ class Channel(object):
 
     def build_text_to_voice(self, text) -> Reply:
         return Bridge().fetch_text_to_voice(text)
+
+    # def build_pdf_to_embedding(self, )

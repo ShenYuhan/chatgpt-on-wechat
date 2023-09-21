@@ -12,6 +12,7 @@ from common.dequeue import Dequeue
 from common.log import logger
 from config import conf
 from plugins import *
+from plugins.pdf_eb.ernie_bot import ErnieBotPdfQA
 
 try:
     from voice.audio_convert import any_to_wav
@@ -133,9 +134,13 @@ class ChatChannel(Channel):
                     return None
             content = content.strip()
             img_match_prefix = check_prefix(content, conf().get("image_create_prefix"))
+            retrieve_match_prefix = check_prefix(content, conf().get("retrieve_prefix"))
             if img_match_prefix:
                 content = content.replace(img_match_prefix, "", 1)
                 context.type = ContextType.IMAGE_CREATE
+            elif retrieve_match_prefix:
+                content = content.replace(retrieve_match_prefix, "", 1)
+                context.type = ContextType.EMBEDDING_RETRIEVE
             else:
                 context.type = ContextType.TEXT
             context.content = content.strip()
@@ -206,7 +211,15 @@ class ChatChannel(Channel):
                 cmsg = context["msg"]
                 cmsg.prepare()
             elif context.type == ContextType.FUNCTION or context.type == ContextType.FILE:  # 文件消息及函数调用等，当前无默认逻辑
-                pass
+                cmsg = context["msg"]
+                cmsg.prepare()
+                # 存到向量数据库
+                file_path = context.content
+                ErnieBotPdfQA().persist(file_path)
+                reply = Reply(type=ReplyType.TEXT, content="解析成功，现在我可以帮助你理解这篇{}，如果你想讨论文章，请在聊天开头加入'解析'两个字，如'解析 这篇文章主要内容是什么？'".format(file_path))
+            elif context.type == ContextType.EMBEDDING_RETRIEVE:  # 解析数据库
+                response = ErnieBotPdfQA().retrieve(context.content)
+                reply = Reply(type=ReplyType.TEXT, content=response)
             else:
                 logger.error("[WX] unknown context type: {}".format(context.type))
                 return
